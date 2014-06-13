@@ -1,1 +1,1 @@
-__author__ = 'N3o'
+__author__ = 'Thomas BOTTON, IGOR ZECEVIC, Daoud MOUSTIR'
