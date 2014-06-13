@@ -58,5 +58,5 @@ while 1:
     conn_client[it] = connexion
     print("Client %s connecté, adresse IP %s, port %s" %(it, adresse[0], adresse[1]))
     # Dialogue avec le client :
-    msg = "Vous êtes connecté. Envoyez vos messages."
-    connexion.send(msg.encode("Utf8"))
+    #msg = "Vous êtes connecté. Envoyez vos messages."
+    #connexion.send(msg.encode("Utf8"))
