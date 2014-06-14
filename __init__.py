@@ -29,6 +29,9 @@ class ThreadClient(threading.Thread):
             #    if cle != nom:
             #        conn_client[cle].send(message.encode("Utf8"))
 
+
+
+
         #Fermeture de la connexion :
         self.connexion.close()  #couper la connexion côté serveur
         del conn_client[nom]    #supprimer son entrée dans le dictionnaire
