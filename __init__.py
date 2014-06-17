@@ -18,6 +18,21 @@ class ThreadClient(threading.Thread):
     def run(self):
         # Dialogue avec le client
         nom = self.getName()    # Chaque thread possède un nom
+
+        idForServerProcessing = 0
+        idForServerProcessing = self.connexion.recv(1024).decode("Utf8")
+
+        message = "%s> %s" % (nom, idForServerProcessing)
+        print(message)
+
+        # Processing Serveur Menu
+            #menu 1=>1 traitement random login & mdp
+        if "11" == idForServerProcessing:
+            randomLoginOrPassword(0)
+            randomLoginOrPassword(1)
+
+
+        """
         while 1:
             msgClient = self.connexion.recv(1024).decode("Utf8")
             if not msgClient or msgClient.upper() =="FIN":
@@ -28,7 +43,7 @@ class ThreadClient(threading.Thread):
             #for cle in conn_client:
             #    if cle != nom:
             #        conn_client[cle].send(message.encode("Utf8"))
-
+        """
 
 
 
