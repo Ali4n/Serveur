@@ -19,7 +19,6 @@ class ThreadClient(threading.Thread):
         # Dialogue avec le client
         nom = self.getName()    # Chaque thread possède un nom
 
-        idForServerProcessing = 0
         idForServerProcessing = self.connexion.recv(1024).decode("Utf8")
 
         message = "%s> %s" % (nom, idForServerProcessing)
@@ -28,8 +27,17 @@ class ThreadClient(threading.Thread):
         # Processing Serveur Menu
             #menu 1=>1 traitement random login & mdp
         if "11" == idForServerProcessing:
-            randomLoginOrPassword(0)
-            randomLoginOrPassword(1)
+            print ("traitement du menu 1 1")
+            loginRandom = self.connexion.recv(1024).decode("Utf8")
+            passwordRandom = self.connexion.recv(1024).decode("Utf8")
+
+            message = "%s> %s" % (nom, loginRandom)
+            print(message)
+            message = "%s> %s" % (nom, loginRandom)
+            print(message)
+
+        elif "12" == idForServerProcessing:
+            print("traitement du menu 1 2")
 
 
         """
