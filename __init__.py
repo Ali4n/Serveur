@@ -19,7 +19,6 @@ class ThreadClient(threading.Thread):
         # Dialogue avec le client
         nom = self.getName()    # Chaque thread possède un nom
 
-
         while 1:
             idForServerProcessing = self.connexion.recv(1024).decode("Utf8")
 
