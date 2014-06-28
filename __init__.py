@@ -7,7 +7,7 @@ from featuresSrv.functions import *
 HOST = '127.0.0.1'
 PORT = 46000
 
-import socket, sys, threading
+import socket, sys, threading, sqlite3
 
 class ThreadClient(threading.Thread):
     #dérivation d'un objet thread pour gérer la connexion avec un client
@@ -25,6 +25,21 @@ class ThreadClient(threading.Thread):
             message = "%s> %s" % (nom, idForServerProcessing)
             print(message)
 
+
+            #Mettre en place la base de donnée SQL :)
+            file = "C:/Users/N3o/PycharmProjects/Serveur/bdd.sq3"
+            connectbdd = sqlite3.connect(file)
+            cursorbdd = connectbdd.cursor()
+            try:
+                cursorbdd.execute("CREATE TABLE membres (login TEXT, password TEXT)")
+            except:
+                #si erreurs de création curseur.execute("DELETE FROM USER")
+                connectbdd.commit()
+                message = "%s> %s" % (nom, "votre table members existe deja ...")
+                print(message)
+
+
+
             # Processing Serveur Menu
                 #menu 1=>1 traitement random login & mdp
             if "WAu295kn" == idForServerProcessing:
@@ -41,6 +56,8 @@ class ThreadClient(threading.Thread):
                 message = "%s> %s= %s" % (nom, "passwordRandomHash",passwordRandomHash)
                 print(message)
 
+                cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + loginRandom + "','" + passwordRandomHash + "')")
+
 
             elif "8fx24ANy" == idForServerProcessing:
                 print("traitement du menu 1 2")
@@ -56,6 +73,20 @@ class ThreadClient(threading.Thread):
                 message = "%s> %s= %s" % (nom, "passwordHash", passwordHash)
                 print(message)
 
+                cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + login + "','" + passwordHash + "')")
+
+            #displayBDD
+            cursorbdd.execute("SELECT * FROM membres")
+            for lignes in cursorbdd:
+                message = "%s> %s= %s" % (nom, "lignes", lignes)
+                print(message)
+
+
+
+
+            connectbdd.commit()
+            cursorbdd.close()
+            connectbdd.close()
         """
         while 1:
             msgClient = self.connexion.recv(1024).decode("Utf8")
