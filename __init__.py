@@ -27,19 +27,34 @@ class ThreadClient(threading.Thread):
 
             # Processing Serveur Menu
                 #menu 1=>1 traitement random login & mdp
-            if "11" == idForServerProcessing:
+            if "WAu295kn" == idForServerProcessing:
                 print ("traitement du menu 1 1")
                 loginRandom = self.connexion.recv(1024).decode("Utf8")
                 passwordRandom = self.connexion.recv(1024).decode("Utf8")
+                passwordRandomHash = sha512(passwordRandom)
 
-                message = "%s> %s" % (nom, loginRandom)
+                #display
+                message = "%s> %s= %s" % (nom, "loginRandom", loginRandom)
                 print(message)
-                message = "%s> %s" % (nom, passwordRandom)
+                message = "%s> %s= %s" % (nom, "passwordRandom",passwordRandom)
+                print(message)
+                message = "%s> %s= %s" % (nom, "passwordRandomHash",passwordRandomHash)
                 print(message)
 
-            elif "12" == idForServerProcessing:
+
+            elif "8fx24ANy" == idForServerProcessing:
                 print("traitement du menu 1 2")
+                login = self.connexion.recv(1024).decode("Utf8")
+                password = self.connexion.recv(1024).decode("Utf8")
+                passwordHash = sha512(password)
 
+                #display
+                message = "%s> %s= %s" % (nom,"login", login)
+                print(message)
+                message = "%s> %s= %s" % (nom, "password", password)
+                print(message)
+                message = "%s> %s= %s" % (nom, "passwordHash", passwordHash)
+                print(message)
 
         """
         while 1:
