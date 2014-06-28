@@ -27,7 +27,7 @@ class ThreadClient(threading.Thread):
 
 
             #Mettre en place la base de donnée SQL :)
-            file = "C:/Users/N3o/PycharmProjects/Serveur/bdd.sq3"
+            file = "C:/Users/N3o/PycharmProjects/Serveur/bddmembers.sq3"
             connectbdd = sqlite3.connect(file)
             cursorbdd = connectbdd.cursor()
             try:
