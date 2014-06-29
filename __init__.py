@@ -57,6 +57,8 @@ class ThreadClient(threading.Thread):
                 print(message)
 
                 cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + loginRandom + "','" + passwordRandomHash + "')")
+                message = "%s" % ("Merci vous etes desormais enregistrer avec votre login et mot de passe, vous pouvez vous connecter :)")
+                self.connexion.send(message.encode("Utf8"))
 
 
             elif "8fx24ANy" == idForServerProcessing:
@@ -74,6 +76,9 @@ class ThreadClient(threading.Thread):
                 print(message)
 
                 cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + login + "','" + passwordHash + "')")
+                message = "%s" % ("Merci vous etes desormais enregistrer avec votre login et mot de passe, vous pouvez vous connecter :)")
+                self.connexion.send(message.encode("Utf8"))
+
 
             #displayBDD
             cursorbdd.execute("SELECT * FROM membres")
