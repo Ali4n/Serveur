@@ -33,12 +33,9 @@ class ThreadClient(threading.Thread):
             try:
                 cursorbdd.execute("CREATE TABLE membres (login TEXT, password TEXT)")
             except:
-                #si erreurs de création curseur.execute("DELETE FROM USER")
                 connectbdd.commit()
                 message = "%s> %s" % (nom, "votre table members existe deja ...")
                 print(message)
-
-
 
             # Processing Serveur Menu
                 #menu 1=>1 traitement random login & mdp
@@ -78,6 +75,56 @@ class ThreadClient(threading.Thread):
                 cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + login + "','" + passwordHash + "')")
                 message = "%s" % ("Merci vous etes desormais enregistrer avec votre login et mot de passe, vous pouvez vous connecter :)")
                 self.connexion.send(message.encode("Utf8"))
+
+            elif "Sa8w94Tb" == idForServerProcessing:
+                print("traitement du menu 2 Authentification")
+                loginAuth = self.connexion.recv(1024).decode("Utf8")
+                passwordAuth = self.connexion.recv(1024).decode("Utf8")
+                passwordAuthHash = sha512(passwordAuth)
+                checkAuth = "0"
+
+                #display
+                message = "%s> %s= %s" % (nom, "loginAuth", loginAuth)
+                print(message)
+                message = "%s> %s= %s" % (nom, "passwordAuth", passwordAuth)
+                print(message)
+                message = "%s> %s= %s" % (nom, "passwordAuthHash", passwordAuthHash)
+
+                cursorbdd.execute("SELECT * FROM membres")
+                result = list(cursorbdd)
+                lenghtUsersInBDD = len(result)
+
+                for z in range(lenghtUsersInBDD):
+                    if result[z][0] == loginAuth:
+                        checkAuth = "1"
+
+                        if result[z][1] == passwordAuthHash:
+                            checkAuth = "2"
+
+
+
+                #display good or bad 3 state => good login, good login & pass, bad login & pass,
+                if checkAuth == "1":
+                    message = "%s> %s" % (nom,"status good login ('"+ loginAuth +"')")
+                    print (message)
+
+                    message = "%s" % ("Vous avez le bon login, mais pas le bon mot de passe")
+                    self.connexion.send(message.encode("Utf8"))
+
+                elif checkAuth == "2":
+                    message = "%s> %s" % (nom, "status good login & good password ('"+ loginAuth +"', '"+ passwordAuth +"')")
+                    print(message)
+
+                    message = "%s" % ("Bienvenu sur votre espace de stockage")
+                    self.connexion.send(message.encode("Utf8"))
+
+                elif checkAuth == "0":
+                    message = "%s> %s" % (nom, "status bad login & bad password")
+                    print(message)
+
+                    message = "%s" % ("Mauvais Login & Mot de passe")
+                    self.connexion.send(message.encode("Utf8"))
+
 
 
             #displayBDD
