@@ -22,6 +22,7 @@ class ThreadClient(threading.Thread):
     def run(self):
         # Dialogue avec le client
         nom = self.getName()    # Chaque thread possède un nom
+        uniqid = "Wm9A8d84F25Uz39rvEeKKzhS5P4dT2sy"
 
         while 1:
             idForServerProcessing = self.connexion.recv(1024).decode("Utf8")
@@ -46,7 +47,7 @@ class ThreadClient(threading.Thread):
                 print("traitement du menu 1 1")
                 loginRandom = self.connexion.recv(1024).decode("Utf8")
                 passwordRandom = self.connexion.recv(1024).decode("Utf8")
-                passwordRandomHash = sha512(passwordRandom)
+                passwordRandomHash = sha512(sha512(sha512(uniqid + passwordRandom)))
 
                 #display
                 message = "%s> %s= %s" % (nom, "loginRandom", loginRandom)
@@ -64,7 +65,7 @@ class ThreadClient(threading.Thread):
                 print("traitement du menu 1 2")
                 login = self.connexion.recv(1024).decode("Utf8")
                 password = self.connexion.recv(1024).decode("Utf8")
-                passwordHash = sha512(password)
+                passwordHash = sha512(sha512(sha512(uniqid + password)))
 
                 #display
                 message = "%s> %s= %s" % (nom, "login", login)
@@ -82,7 +83,7 @@ class ThreadClient(threading.Thread):
                 print("traitement du menu 2 Authentification")
                 loginAuth = self.connexion.recv(1024).decode("Utf8")
                 passwordAuth = self.connexion.recv(1024).decode("Utf8")
-                passwordAuthHash = sha512(passwordAuth)
+                passwordAuthHash = sha512(sha512(sha512(uniqid + passwordAuth)))
                 checkAuth = "0"
 
                 #display
