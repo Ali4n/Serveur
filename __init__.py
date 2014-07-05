@@ -7,7 +7,11 @@ from featuresSrv.functions import *
 HOST = '127.0.0.1'
 PORT = 46000
 
-import socket, sys, threading, sqlite3
+import socket
+import sys
+import threading
+import sqlite3
+
 
 class ThreadClient(threading.Thread):
     #dérivation d'un objet thread pour gérer la connexion avec un client
@@ -25,7 +29,6 @@ class ThreadClient(threading.Thread):
             message = "%s> %s" % (nom, idForServerProcessing)
             print(message)
 
-
             #Mettre en place la base de donnée SQL :)
             file = "C:/Users/N3o/PycharmProjects/Serveur/bddmembers.sq3"
             connectbdd = sqlite3.connect(file)
@@ -40,7 +43,7 @@ class ThreadClient(threading.Thread):
             # Processing Serveur Menu
                 #menu 1=>1 traitement random login & mdp
             if "WAu295kn" == idForServerProcessing:
-                print ("traitement du menu 1 1")
+                print("traitement du menu 1 1")
                 loginRandom = self.connexion.recv(1024).decode("Utf8")
                 passwordRandom = self.connexion.recv(1024).decode("Utf8")
                 passwordRandomHash = sha512(passwordRandom)
@@ -48,15 +51,14 @@ class ThreadClient(threading.Thread):
                 #display
                 message = "%s> %s= %s" % (nom, "loginRandom", loginRandom)
                 print(message)
-                message = "%s> %s= %s" % (nom, "passwordRandom",passwordRandom)
+                message = "%s> %s= %s" % (nom, "passwordRandom", passwordRandom)
                 print(message)
-                message = "%s> %s= %s" % (nom, "passwordRandomHash",passwordRandomHash)
+                message = "%s> %s= %s" % (nom, "passwordRandomHash", passwordRandomHash)
                 print(message)
 
                 cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + loginRandom + "','" + passwordRandomHash + "')")
                 message = "%s" % ("Merci vous etes desormais enregistrer avec votre login et mot de passe, vous pouvez vous connecter :)")
                 self.connexion.send(message.encode("Utf8"))
-
 
             elif "8fx24ANy" == idForServerProcessing:
                 print("traitement du menu 1 2")
@@ -65,7 +67,7 @@ class ThreadClient(threading.Thread):
                 passwordHash = sha512(password)
 
                 #display
-                message = "%s> %s= %s" % (nom,"login", login)
+                message = "%s> %s= %s" % (nom, "login", login)
                 print(message)
                 message = "%s> %s= %s" % (nom, "password", password)
                 print(message)
@@ -89,6 +91,7 @@ class ThreadClient(threading.Thread):
                 message = "%s> %s= %s" % (nom, "passwordAuth", passwordAuth)
                 print(message)
                 message = "%s> %s= %s" % (nom, "passwordAuthHash", passwordAuthHash)
+                print(message)
 
                 cursorbdd.execute("SELECT * FROM membres")
                 result = list(cursorbdd)
@@ -101,12 +104,10 @@ class ThreadClient(threading.Thread):
                         if result[z][1] == passwordAuthHash:
                             checkAuth = "2"
 
-
-
                 #display good or bad 3 state => good login, good login & pass, bad login & pass,
                 if checkAuth == "1":
-                    message = "%s> %s" % (nom,"status good login ('"+ loginAuth +"') + bad password ('"+ passwordAuth +"')")
-                    print (message)
+                    message = "%s> %s" % (nom, "status good login ('"+ loginAuth +"') + bad password ('"+ passwordAuth +"')")
+                    print(message)
 
                     message = "%s" % ("Mauvais Login & Mot de passe")
                     self.connexion.send(message.encode("Utf8"))
@@ -125,16 +126,11 @@ class ThreadClient(threading.Thread):
                     message = "%s" % ("Mauvais Login & Mot de passe")
                     self.connexion.send(message.encode("Utf8"))
 
-
-
             #displayBDD
             cursorbdd.execute("SELECT * FROM membres")
             for lignes in cursorbdd:
                 message = "%s> %s= %s" % (nom, "lignes", lignes)
                 print(message)
-
-
-
 
             connectbdd.commit()
             cursorbdd.close()
@@ -151,8 +147,6 @@ class ThreadClient(threading.Thread):
             #    if cle != nom:
             #        conn_client[cle].send(message.encode("Utf8"))
         """
-
-
 
         #Fermeture de la connexion :
         self.connexion.close()  #couper la connexion côté serveur
