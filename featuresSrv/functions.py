@@ -11,5 +11,4 @@ def logserver(message):
     fichier='server.log'
     of = open(fichier,'a')
     of.write(message + '\n')
-    print("le hash est enregistrer dans le fichier\n\n\n")
     of.close()
