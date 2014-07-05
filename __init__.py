@@ -105,10 +105,10 @@ class ThreadClient(threading.Thread):
 
                 #display good or bad 3 state => good login, good login & pass, bad login & pass,
                 if checkAuth == "1":
-                    message = "%s> %s" % (nom,"status good login ('"+ loginAuth +"')")
+                    message = "%s> %s" % (nom,"status good login ('"+ loginAuth +"') + bad password ('"+ passwordAuth +"')")
                     print (message)
 
-                    message = "%s" % ("Vous avez le bon login, mais pas le bon mot de passe")
+                    message = "%s" % ("Mauvais Login & Mot de passe")
                     self.connexion.send(message.encode("Utf8"))
 
                 elif checkAuth == "2":
