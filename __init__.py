@@ -29,6 +29,7 @@ class ThreadClient(threading.Thread):
 
             message = "%s> %s" % (nom, idForServerProcessing)
             print(message)
+            logserver(message)
 
             #Mettre en place la base de donnée SQL :)
             file = "C:/Users/N3o/PycharmProjects/Serveur/bddmembers.sq3"
@@ -40,6 +41,7 @@ class ThreadClient(threading.Thread):
                 connectbdd.commit()
                 message = "%s> %s" % (nom, "votre table members existe deja ...")
                 print(message)
+                logserver(message)
 
             # Processing Serveur Menu
                 #menu 1=>1 traitement random login & mdp
@@ -52,10 +54,13 @@ class ThreadClient(threading.Thread):
                 #display
                 message = "%s> %s= %s" % (nom, "loginRandom", loginRandom)
                 print(message)
+                logserver(message)
                 message = "%s> %s= %s" % (nom, "passwordRandom", passwordRandom)
                 print(message)
+                logserver(message)
                 message = "%s> %s= %s" % (nom, "passwordRandomHash", passwordRandomHash)
                 print(message)
+                logserver(message)
 
                 cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + loginRandom + "','" + passwordRandomHash + "')")
                 message = "%s" % ("Merci vous etes desormais enregistrer avec votre login et mot de passe, vous pouvez vous connecter :)")
@@ -70,10 +75,13 @@ class ThreadClient(threading.Thread):
                 #display
                 message = "%s> %s= %s" % (nom, "login", login)
                 print(message)
+                logserver(message)
                 message = "%s> %s= %s" % (nom, "password", password)
                 print(message)
+                logserver(message)
                 message = "%s> %s= %s" % (nom, "passwordHash", passwordHash)
                 print(message)
+                logserver(message)
 
                 cursorbdd.execute("INSERT INTO membres (login,password) VALUES ('" + login + "','" + passwordHash + "')")
                 message = "%s" % ("Merci vous etes desormais enregistrer avec votre login et mot de passe, vous pouvez vous connecter :)")
@@ -89,10 +97,13 @@ class ThreadClient(threading.Thread):
                 #display
                 message = "%s> %s= %s" % (nom, "loginAuth", loginAuth)
                 print(message)
+                logserver(message)
                 message = "%s> %s= %s" % (nom, "passwordAuth", passwordAuth)
                 print(message)
+                logserver(message)
                 message = "%s> %s= %s" % (nom, "passwordAuthHash", passwordAuthHash)
                 print(message)
+                logserver(message)
 
                 cursorbdd.execute("SELECT * FROM membres")
                 result = list(cursorbdd)
@@ -109,6 +120,7 @@ class ThreadClient(threading.Thread):
                 if checkAuth == "1":
                     message = "%s> %s" % (nom, "status good login ('"+ loginAuth +"') + bad password ('"+ passwordAuth +"')")
                     print(message)
+                    logserver(message)
 
                     message = "%s" % ("Mauvais Login & Mot de passe")
                     self.connexion.send(message.encode("Utf8"))
@@ -116,6 +128,7 @@ class ThreadClient(threading.Thread):
                 elif checkAuth == "2":
                     message = "%s> %s" % (nom, "status good login & good password ('"+ loginAuth +"', '"+ passwordAuth +"')")
                     print(message)
+                    logserver(message)
 
                     message = "%s" % ("Bienvenu sur votre espace de stockage")
                     self.connexion.send(message.encode("Utf8"))
@@ -123,6 +136,7 @@ class ThreadClient(threading.Thread):
                 elif checkAuth == "0":
                     message = "%s> %s" % (nom, "status bad login & bad password")
                     print(message)
+                    logserver(message)
 
                     message = "%s" % ("Mauvais Login & Mot de passe")
                     self.connexion.send(message.encode("Utf8"))
