@@ -132,14 +132,6 @@ class ThreadClient(threading.Thread):
 
                     message = "%s" % ("Bienvenu sur votre espace de stockage")
                     self.connexion.send(message.encode("Utf8"))
-                    #ftp_host = '127.0.0.1'
-                    #ftp_login = 'anonymous'
-                    #ftp_password = 'Ls4z7B9t'
-
-                    #ftp = FTP(ftp_host, ftp_login, ftp_password)
-
-                    #message = ftp.dir()
-                    #self.connexion.send(message.encode("Utf8"))
 
 
                 elif checkAuth == "0":
