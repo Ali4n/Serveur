@@ -3,6 +3,7 @@ __author__ = 'Thomas BOTTON, IGOR ZECEVIC, Daoud MOUSTIR'
 # Ce serveur attend la connexion d'un client
 
 from featuresSrv.functions import *
+from ftplib import FTP
 
 HOST = '127.0.0.1'
 PORT = 46000
@@ -11,7 +12,6 @@ import socket
 import sys
 import threading
 import sqlite3
-
 
 class ThreadClient(threading.Thread):
     #dérivation d'un objet thread pour gérer la connexion avec un client
@@ -132,6 +132,15 @@ class ThreadClient(threading.Thread):
 
                     message = "%s" % ("Bienvenu sur votre espace de stockage")
                     self.connexion.send(message.encode("Utf8"))
+                    #ftp_host = '127.0.0.1'
+                    #ftp_login = 'anonymous'
+                    #ftp_password = 'Ls4z7B9t'
+
+                    #ftp = FTP(ftp_host, ftp_login, ftp_password)
+
+                    #message = ftp.dir()
+                    #self.connexion.send(message.encode("Utf8"))
+
 
                 elif checkAuth == "0":
                     message = "%s> %s" % (nom, "status bad login & bad password")
@@ -150,18 +159,6 @@ class ThreadClient(threading.Thread):
             connectbdd.commit()
             cursorbdd.close()
             connectbdd.close()
-        """
-        while 1:
-            msgClient = self.connexion.recv(1024).decode("Utf8")
-            if not msgClient or msgClient.upper() =="FIN":
-                break
-            message = "%s> %s" % (nom, msgClient)
-            print(message)
-            #Faire suivre le message à tous les autres clients :
-            #for cle in conn_client:
-            #    if cle != nom:
-            #        conn_client[cle].send(message.encode("Utf8"))
-        """
 
         #Fermeture de la connexion :
         self.connexion.close()  #couper la connexion côté serveur
