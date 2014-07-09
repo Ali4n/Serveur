@@ -117,7 +117,15 @@ class ThreadClient(threading.Thread):
                             checkAuth = "2"
 
                 #display good or bad 3 state => good login, good login & pass, bad login & pass,
-                if checkAuth == "1":
+
+                if checkAuth == "0":
+                    message = "%s> %s" % (nom, "status bad login & bad password")
+                    print(message)
+                    logserver(message)
+
+                    message = "%s" % ("Mauvais Login & Mot de passe")
+                    self.connexion.send(message.encode("Utf8"))
+                elif checkAuth == "1":
                     message = "%s> %s" % (nom, "status good login ('"+ loginAuth +"') + bad password ('"+ passwordAuth +"')")
                     print(message)
                     logserver(message)
@@ -132,21 +140,17 @@ class ThreadClient(threading.Thread):
 
                     message = "%s" % ("Bienvenu sur votre espace de stockage")
                     self.connexion.send(message.encode("Utf8"))
+            elif "4g8wZaD2" == idForServerProcessing:
+                file = self.connexion.recv(1024).decode("Utf8")
+                E2 = file_hash(file)
+                self.connexion.send(E2.encode("Utf8"))
 
-
-                elif checkAuth == "0":
-                    message = "%s> %s" % (nom, "status bad login & bad password")
-                    print(message)
-                    logserver(message)
-
-                    message = "%s" % ("Mauvais Login & Mot de passe")
-                    self.connexion.send(message.encode("Utf8"))
 
             #displayBDD
-            cursorbdd.execute("SELECT * FROM membres")
-            for lignes in cursorbdd:
-                message = "%s> %s= %s" % (nom, "lignes", lignes)
-                print(message)
+            #cursorbdd.execute("SELECT * FROM membres")
+            #for lignes in cursorbdd:
+            #    message = "%s> %s= %s" % (nom, "lignes", lignes)
+            #    print(message)
 
             connectbdd.commit()
             cursorbdd.close()
